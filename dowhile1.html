@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Interactivo de Frutas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .contenedor {
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #50c9f9;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #50c9f9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #33b1d7;
+        }
+        .resultado {
+            margin-top: 20px;
+            display: none;
+        }
+        .resultado h3 {
+            color: #333;
+        }
+        .producto {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .producto .nombre {
+            flex: 1;
+            margin-left: 10px;
+        }
+        .producto .precio {
+            font-weight: bold;
+            color: #50c9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Menú Interactivo de Frutas</h2>
+    <button onclick="mostrarMenu()">Mostrar Menú</button>
+
+    <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+    const productos = [
+        { nombre: "Manzana 🍎", precio: 1.500 },
+        { nombre: "Banana 🍌", precio: 1.200 },
+        { nombre: "Naranja 🍊", precio: 1.800 },
+        { nombre: "Fresa 🍓", precio: 2.000 },
+        { nombre: "Uva 🍇", precio: 2.500 },
+        { nombre: "Piña 🍍", precio: 3.000 }
+    ];
+
+    function mostrarMenu() {
+        let opcion = prompt("Elige una opción:\n1. Ver productos\n2. Ver precios\n3. Contactar soporte\n4. Salir");
+
+        if (opcion === "1") {
+            mostrarProductos();
+        } else if (opcion === "2") {
+            mostrarPrecios();
+        } else if (opcion === "3") {
+            mostrarMensaje("Para soporte, contacta a: soporte@frutashop.com");
+        } else if (opcion === "4") {
+            mostrarMensaje("¡Gracias por visitar nuestra tienda! ¡Hasta pronto!");
+        } else {
+            alert("Opción no válida. Por favor, elige una opción válida.");
+        }
+    }
+
+    function mostrarProductos() {
+        let productosHTML = "<h3>Productos Disponibles</h3>";
+        productos.forEach(producto => {
+            productosHTML += `
+                <div class="producto">
+                    <div class="nombre">${producto.nombre}</div>
+                </div>
+            `;
+        });
+        document.getElementById("resultado").innerHTML = productosHTML;
+        document.getElementById("resultado").style.display = "block";
+    }
+
+    function mostrarPrecios() {
+        let preciosHTML = "<h3>Precios de los Productos</h3>";
+        productos.forEach(producto => {
+            preciosHTML += `
+                <div class="producto">
+                    <div class="nombre">${producto.nombre}</div>
+                    <div class="precio">$${producto.precio.toFixed(3)}</div>
+                </div>
+            `;
+        });
+        document.getElementById("resultado").innerHTML = preciosHTML;
+        document.getElementById("resultado").style.display = "block";
+    }
+
+    function mostrarMensaje(mensaje) {
+        const resultDiv = document.getElementById("resultado");
+        resultDiv.textContent = mensaje;
+        resultDiv.style.display = "block";
+    }
+</script>
+
+</body>
+</html>

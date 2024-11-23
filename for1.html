@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Suma de Números</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #e9f7f6;
+            color: #264653;
+        }
+
+        .box {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #50c9f9;
+        }
+
+        label, input, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 1rem;
+        }
+
+        label {
+            color: #264653;
+            font-size: 18px;
+        }
+
+        input {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #50c9f9;
+        }
+
+        button {
+            background-color: #50c9f9;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #2e5977;
+        }
+
+        .result-container {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f1faee;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+
+        .result-container p {
+            font-size: 16px;
+            color: #0e0e0e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Calculadora de Suma de Números</h2>
+
+    <label for="cantidadNumeros">¿Cuántos números deseas ingresar?</label>
+    <input type="number" id="cantidadNumeros" placeholder="Cantidad de números" required>
+
+    <button onclick="sumarNumeros()">Sumar Números</button>
+
+    <div class="result-container" id="resultado">
+        <p><strong>Total de la suma: $<span id="totalSuma">0</span></strong></p>
+    </div>
+</div>
+
+<script>
+    function sumarNumeros() {
+        let cantidadNumeros = parseInt(document.getElementById("cantidadNumeros").value);
+
+        if (isNaN(cantidadNumeros) || cantidadNumeros <= 0) {
+            alert("Por favor, ingresa una cantidad válida de números.");
+            return;
+        }
+
+        let sumaTotal = 0;
+
+        for (let i = 1; i <= cantidadNumeros; i++) {
+            let numero = prompt(`Ingresa el número ${i}:`);
+
+            numero = parseFloat(numero);
+            if (isNaN(numero)) {
+                alert("El valor ingresado no es un número válido. Intenta de nuevo.");
+                i--; // Retroceder el índice si el número es inválido
+                continue;
+            }
+
+            sumaTotal += numero;
+        }
+
+        document.getElementById("totalSuma").textContent = sumaTotal.toFixed(2);
+        document.getElementById("resultado").style.display = "block";
+    }
+</script>
+
+</body>
+</html>

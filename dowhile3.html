@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ventas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .contenedor {
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #ff6f61;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        input, button {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #ff6f61;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e55d4d;
+        }
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fffbe0;
+            border-radius: 8px;
+            border: 1px solid #f5d300;
+            display: none;
+            text-align: center;
+        }
+        .emoji {
+            font-size: 40px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Registro de Ventas 🛒💰</h2>
+
+    <label for="producto">Ingresa el nombre del producto:</label>
+    <input type="text" id="producto" placeholder="Nombre del producto" required>
+    
+    <label for="precio">Ingresa el precio del producto:</label>
+    <input type="number" id="precio" placeholder="Precio del producto" required>
+
+    <button onclick="registrarVenta()">Registrar Venta</button>
+
+    <div class="resultado" id="resultado">
+        <div id="mensaje"></div>
+        <ul id="resumenVentas"></ul>
+        <p id="totalVentas"></p>
+        <button onclick="reiniciarVentas()">Reiniciar Registro 🔄</button>
+    </div>
+</div>
+
+<script>
+    let ventas = []; 
+    let montoTotal = 0; 
+
+    function registrarVenta() {
+        let continuar = 'si'; 
+
+        do {
+            let producto = document.getElementById("producto").value;
+            let precio = parseFloat(document.getElementById("precio").value);
+
+            if (!producto || isNaN(precio) || precio <= 0) {
+                alert("Por favor, ingresa un producto válido con un precio positivo.");
+                return;
+            }
+
+            ventas.push({ nombre: producto, precio: precio });
+            montoTotal += precio;
+
+            document.getElementById("producto").value = '';
+            document.getElementById("precio").value = '';
+
+            mostrarResumenVentas();
+
+            continuar = prompt("¿Deseas registrar otra venta? Escribe 'si' para continuar o 'no' para finalizar.");
+
+        } while (continuar.toLowerCase() === 'si'); 
+
+        mostrarResumenVentas();
+    }
+
+    function mostrarResumenVentas() {
+        let resumen = document.getElementById("resumenVentas");
+        resumen.innerHTML = ''; 
+
+        ventas.forEach(function(venta) {
+            let li = document.createElement("li");
+            li.textContent = `${venta.nombre} - $${venta.precio.toFixed(2)}`;
+            resumen.appendChild(li);
+        });
+
+        document.getElementById("totalVentas").textContent = `Monto total de las ventas: $${montoTotal.toFixed(2)}`;
+        mostrarEmojiResultado(montoTotal);
+
+        document.getElementById("resultado").style.display = "block";
+    }
+
+    function mostrarEmojiResultado(total) {
+        let mensaje = document.getElementById("mensaje");
+        let emojiDiv = document.getElementById("emojiDiv");
+
+        if (!emojiDiv) {
+            emojiDiv = document.createElement("div");
+            emojiDiv.id = "emojiDiv";
+            emojiDiv.className = "emoji";
+            document.getElementById("resultado").prepend(emojiDiv);
+        }
+
+        emojiDiv.innerHTML = '';
+
+        let copas = "🏆🏆"; 
+        if (total <= 0) {
+            mensaje.textContent = "¡Aún no se han registrado ventas!";
+            emojiDiv.textContent = "😔 " + copas;
+        } else if (total < 100) {
+            mensaje.textContent = "Ventas modestas, ¡pero vamos subiendo! 💪";
+            emojiDiv.textContent = "📈 " + copas;
+        } else if (total >= 100 && total < 500) {
+            mensaje.textContent = "¡Buen trabajo! Las ventas están subiendo 🚀";
+            emojiDiv.textContent = "💥 " + copas;
+        } else {
+            mensaje.textContent = "¡Ventas increíbles! ¡Vamos a por más! 🎉";
+            emojiDiv.textContent = "🏆 " + copas;
+        }
+    }
+
+    function reiniciarVentas() {
+        ventas = [];
+        montoTotal = 0;
+        document.getElementById("resultado").style.display = "none";
+        document.getElementById("producto").value = '';
+        document.getElementById("precio").value = '';
+    }
+</script>
+
+</body>
+</html>

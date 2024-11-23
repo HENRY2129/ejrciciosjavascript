@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Restaurante</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa; 
+        }
+        .contenedor {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 50px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #00bcd4;
+            font-size: 2rem;
+        }
+        label, select, input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #00bcd4;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0097a7;
+        }
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            border: 1px solid #00bcd4;
+            display: none;
+            text-align: center;
+        }
+        .emoji {
+            font-size: 50px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Menú de Restaurante 🍽️</h2>
+
+    <label for="plato">Selecciona un plato:</label>
+    <select id="plato">
+        <option value="0">Seleccione un plato</option>
+        <option value="16000">Pizza - $16.000 🍕</option>
+        <option value="18000">Hamburguesa - $18.000 🍔</option>
+        <option value="11000">Ensalada - $11.000 🥗</option>
+        <option value="20000">Pasta - $20.000 🍝</option>
+    </select>
+
+    <label for="bebida">Selecciona una bebida:</label>
+    <select id="bebida">
+        <option value="0">Seleccione una bebida</option>
+        <option value="3000">Agua - $3.000 💧</option>
+        <option value="7000">Gaseosa - $7.000 🥤</option>
+        <option value="5000">Cerveza - $5.000 🍺</option>
+        <option value="35000">Vino - $35.000 🍷</option>
+    </select>
+
+    <label for="metodoPago">Método de pago:</label>
+    <select id="metodoPago">
+        <option value="efectivo">Efectivo 💵</option>
+        <option value="tarjeta">Tarjeta de Crédito 💳</option>
+        <option value="cheque">Cheque 📝</option>
+    </select>
+
+    <button onclick="calcularTotal()">Calcular Total 🧾</button>
+
+    <div class="resultado" id="resultado">
+        <div id="emojiDiv" class="emoji"></div>
+        <p id="mensajeResultado"></p>
+    </div>
+</div>
+
+<script>
+    function calcularTotal() {
+        let plato = parseFloat(document.getElementById("plato").value);
+        let bebida = parseFloat(document.getElementById("bebida").value);
+        let metodoPago = document.getElementById("metodoPago").value;
+
+        if (plato === 0 || bebida === 0) {
+            alert("Por favor, selecciona un plato y una bebida.");
+            return;
+        }
+
+        let total = plato + bebida;
+        let descuento = 0;
+        let emoji = '';
+
+        switch (metodoPago) {
+            case "efectivo":
+                descuento = 0.10;
+                emoji = "💰";
+                break;
+            case "tarjeta":
+                descuento = 0.05;
+                emoji = "💳";
+                break;
+            case "cheque":
+                descuento = 0.08;
+                emoji = "📝";
+                break;
+            default:
+                descuento = 0;
+                emoji = "❓";
+                break;
+        }
+
+        let descuentoAplicado = total * descuento;
+        let totalConDescuento = total - descuentoAplicado;
+
+        let mensaje = `El total de la comida es: $${total.toFixed(2)}.<br>Descuento aplicado: $${descuentoAplicado.toFixed(2)}.<br>Total con descuento: $${totalConDescuento.toFixed(2)}.`;
+
+        document.getElementById("emojiDiv").textContent = emoji;
+        document.getElementById("mensajeResultado").innerHTML = mensaje;
+        document.getElementById("resultado").style.display = "block";
+    }
+</script>
+
+</body>
+</html>

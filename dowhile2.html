@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor de Temperatura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .contenedor {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #ff6f61;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        input, button {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #ff6f61;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e55d4d;
+        }
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fffbe0;
+            border-radius: 8px;
+            border: 1px solid #f5d300;
+            display: none;
+            text-align: center;
+        }
+        .fruta {
+            font-size: 40px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Sensor de Temperatura 🌡️</h2>
+
+    <label for="temperatura">Ingresa la temperatura actual (°C):</label>
+    <input type="number" id="temperatura" placeholder="Temperatura en grados Celsius" required>
+
+    <button onclick="verificarTemperatura()">Verificar Temperatura</button>
+
+    <div class="resultado" id="resultado">
+        <div id="mensaje"></div>
+        <div id="emoji"></div>
+    </div>
+</div>
+
+<script>
+    function verificarTemperatura() {
+        let temperatura = parseFloat(document.getElementById("temperatura").value);
+        
+        if (isNaN(temperatura)) {
+            alert("Por favor, ingresa una temperatura válida.");
+            return; 
+        }
+
+        let mensaje = "";
+        let emoji = "";
+        
+        if (temperatura >= 18 && temperatura <= 25) {
+            mensaje = "La temperatura es perfecta 🌞.";
+            emoji = "🌞";  
+        } else if (temperatura < 18) {
+            mensaje = "Hace frío 🥶. ¡Abrígate bien!";
+            emoji = "🥶"; 
+        } else if (temperatura > 25) {
+            mensaje = "Hace calor 🔥. ¡Hidrátate mucho!";
+            emoji = "🔥"; 
+        }
+
+        mostrarResultado(mensaje, emoji);
+    }
+
+    function mostrarResultado(mensaje, emoji) {
+        const mensajeDiv = document.getElementById("mensaje");
+        const emojiDiv = document.getElementById("emoji");
+
+        mensajeDiv.textContent = mensaje;
+        emojiDiv.textContent = emoji;
+
+        document.getElementById("resultado").style.display = "block";
+    }
+</script>
+
+</body>
+</html>

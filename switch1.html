@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra en la Tienda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+        .contenedor {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+            color: #00bcd4;
+            font-size: 2rem;
+        }
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #00bcd4;
+        }
+        button {
+            background-color: #00bcd4;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0097a7;
+        }
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            border: 1px solid #00bcd4;
+            display: none;
+            text-align: center;
+        }
+        .emoji {
+            font-size: 40px;
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Compra en la Tienda 🛒💸</h2>
+
+    <label for="producto">Selecciona el tipo de producto:</label>
+    <select id="producto">
+        <option value="A">Alimentos 🍎</option>
+        <option value="V">Vestimenta 👚</option>
+        <option value="E">Electrónicos 💻</option>
+    </select>
+
+    <label for="cantidad">Ingresa la cantidad de unidades:</label>
+    <input type="number" id="cantidad" placeholder="Cantidad de unidades" required>
+
+    <button onclick="calcularCompra()">Calcular Total 🧮</button>
+
+    <div class="resultado" id="resultado">
+        <div id="emojiDiv" class="emoji"></div>
+        <p id="mensajeResultado"></p>
+    </div>
+</div>
+
+<script>
+    function calcularCompra() {
+        let producto = document.getElementById("producto").value;
+        let cantidad = parseInt(document.getElementById("cantidad").value);
+
+        if (isNaN(cantidad) || cantidad <= 0) {
+            alert("Por favor, ingresa una cantidad válida de unidades.");
+            return;
+        }
+
+        let precioBase = 0;
+        let descuento = 0;
+
+        switch (producto) {
+            case "A": 
+                precioBase = 10; 
+                descuento = 0.10; 
+                break;
+            case "V": 
+                precioBase = 20; 
+                descuento = 0.05; 
+                break;
+            case "E": 
+                precioBase = 50; 
+                descuento = 0.02; 
+                break;
+            default:
+                alert("Producto no válido.");
+                return;
+        }
+
+        let costoSinDescuento = precioBase * cantidad;
+        let descuentoAplicado = costoSinDescuento * descuento;
+        let costoConDescuento = costoSinDescuento - descuentoAplicado;
+
+        let mensaje = `Costo sin descuento: $${costoSinDescuento.toFixed(2)}<br>`;
+        mensaje += `Descuento aplicado: $${descuentoAplicado.toFixed(2)}<br>`;
+        mensaje += `Costo total con descuento: $${costoConDescuento.toFixed(2)}`;
+
+        document.getElementById("mensajeResultado").innerHTML = mensaje;
+        mostrarEmojiResultado(costoConDescuento);
+
+        document.getElementById("resultado").style.display = "block";
+    }
+
+    function mostrarEmojiResultado(costo) {
+        let emojiDiv = document.getElementById("emojiDiv");
+
+        if (costo <= 0) {
+            emojiDiv.textContent = "😕 No se registraron compras.";
+        } else if (costo < 50) {
+            emojiDiv.textContent = "🥳 ¡Pequeñas compras! Bien hecho.";
+        } else if (costo >= 50 && costo < 200) {
+            emojiDiv.textContent = "🎉 ¡Buen trabajo! Has ahorrado algo.";
+        } else {
+            emojiDiv.textContent = "💰 ¡Gran compra! ¡Gran ahorro!";
+        }
+    }
+</script>
+
+</body>
+</html>

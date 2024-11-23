@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Impresora 🖨️</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+        }
+        .contenedor {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 50px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+            color: #00bcd4;
+            font-size: 2rem;
+        }
+        label, input, button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #00bcd4;
+        }
+        button {
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0097a7;
+        }
+        .resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            border: 1px solid #00bcd4;
+            display: none;
+            text-align: center;
+        }
+        .emoji {
+            font-size: 50px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Simulador de Impresora 🖨️</h2>
+
+    <label for="pagina">Ingresa la cantidad de páginas a imprimir:</label>
+    <input type="number" id="pagina" placeholder="Número de páginas" required>
+
+    <button onclick="imprimirPaginas()">Imprimir Páginas 🖨️</button>
+
+    <div class="resultado" id="resultado">
+        <div id="emojiDiv" class="emoji"></div>
+        <p id="mensajeResultado"></p>
+        <button onclick="reiniciarImpresora()">Reiniciar Impresora 🔄</button>
+    </div>
+</div>
+
+<script>
+    let capacidadPapel = 100; 
+    let totalImpreso = 0;
+
+    function imprimirPaginas() {
+        let paginasAImprimir = parseInt(document.getElementById("pagina").value);
+        let mensaje = '';
+        
+        if (isNaN(paginasAImprimir) || paginasAImprimir <= 0) {
+            alert("Por favor, ingresa un número válido de páginas.");
+            return;
+        }
+
+        while (paginasAImprimir > 0) {
+            if (capacidadPapel >= paginasAImprimir) {
+                capacidadPapel -= paginasAImprimir;
+                totalImpreso += paginasAImprimir;
+                mensaje = `Se han impreso ${paginasAImprimir} páginas. ✅`;
+                break;
+            } else {
+                mensaje = `No hay suficiente papel para imprimir ${paginasAImprimir} páginas. Solo quedan ${capacidadPapel} páginas disponibles. 📉`;
+                paginasAImprimir = 0;
+            }
+        }
+
+        document.getElementById("mensajeResultado").textContent = `${mensaje} Papel restante: ${capacidadPapel}. Total impreso: ${totalImpreso}.`;
+        document.getElementById("resultado").style.display = "block";
+
+        if (capacidadPapel > 0) {
+            document.getElementById("emojiDiv").textContent = "🖨️"; 
+        } else {
+            document.getElementById("emojiDiv").textContent = "📉"; 
+        }
+    }
+
+    function reiniciarImpresora() {
+        capacidadPapel = 100;
+        totalImpreso = 0;
+        document.getElementById("resultado").style.display = "none";
+        document.getElementById("pagina").value = '';
+        document.getElementById("emojiDiv").textContent = "";
+    }
+</script>
+
+</body>
+</html>
